@@ -13,7 +13,7 @@ typedef struct {
     ElemType * elem;    // 存储空间基址
     int length;         // 当前长度
     int list_size;      // 当前分配的存储容量
-} Sqlist;
+}Sqlist;
 
 Status InitList_sq(Sqlist &L);
 Status DetroyList_sq(Sqlist &L);
