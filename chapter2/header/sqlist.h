@@ -1,6 +1,5 @@
 #ifndef _SQLIST_H
 # define _SQLIST_H
-
 // 定义顺序表结构及相关算法函数原型
 
 # define LIST_INIT_SIZE  100 // 线性表存储空间的初始分配量
@@ -26,5 +25,6 @@ Status PriorElem_sq(Sqlist L, ElemType cur_e, ElemType &pre_e);
 Status NextElem_sq(Sqlist L, ElemType cur_e, ElemType &next_e);
 Status ListInsert_sq(Sqlist &L, int i, ElemType e);
 Status ListDelete_sq(Sqlist &L, int i, ElemType &e);
+Status MergeList_sq(Sqlist La, Sqlist Lb, Sqlist &Lc);
 
 #endif

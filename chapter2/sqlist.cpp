@@ -3,8 +3,8 @@
 //
 #include <stdio.h>
 #include <stdlib.h>
-#include "basic.h"
-#include "sqlist.h"
+#include "header/basic.h"
+#include "header/sqlist.h"
 
 Status InitList_sq(Sqlist &L) {
     // 构造一个空的现行表L。
@@ -35,13 +35,13 @@ Status ListEmpty_sq(Sqlist L) {
     // 调价:线性表L已存在
     // 结果:若L为空表，则返回TRUE，否则返回FALSE
     (!L.length)? TRUE : FALSE;
-    return OK
+    return OK;
 } // ListEmpty_sq
 
 int ListLength_sq(Sqlist L) {
     // 条件:线性表L已存在
     // 结果:返回L中数据元素的个数
-    return L.length
+    return L.length;
 } // ListLength_sq
 
 Status GetElem_sq(Sqlist L, int i, ElemType &e) {
@@ -58,8 +58,8 @@ int LocateElem_sq(Sqlist L, ElemType e,
     // 结果:返回L中第一个与e满足compare()的数据元素的位序，
     //      若这样的数据不存在，则返回值为0
     int i = 1;
-    while ( (i <= L.length) && !( *compare(e, L.elem[i-1]) ) ++i;
-    (i <= L.length) ? return i : return 0;
+    while ( (i <= L.length) && !( (*compare)(e, L.elem[i-1]) )) i++;
+    return (i <= L.length) ? i : 0;
 } // LocateElem_sq
 
 Status PriorElem_sq(Sqlist L, ElemType cur_e, ElemType &pre_e) {
@@ -73,7 +73,10 @@ Status PriorElem_sq(Sqlist L, ElemType cur_e, ElemType &pre_e) {
          ++p;
     }
 
-    (0 < i < L.length) ? pre_e = *(--p) : exit(EROOR);
+    if (0 < i < L.length)
+        pre_e = *(--p);
+    else
+        exit(ERROR);
 
     return OK;
 } // PriorElem_sq
@@ -89,7 +92,10 @@ Status NextElem_sq(Sqlist L, ElemType cur_e, ElemType &next_e) {
         ++p;
     }
 
-    (i != L.length-1) ? next_e = *(++p) : exit(ERROR);
+    if (i != L.length-1)
+        next_e = *(++p);
+    else
+        exit(ERROR);
 
     return OK;
 } // NextElem_sq
@@ -132,3 +138,24 @@ Status ListDelete_sq(Sqlist &L, int i, ElemType &e) {
     return OK;
 } // ListDelete_sq
 
+// 算法2.7 - 归并算法
+Status MergeList_sq(Sqlist La, Sqlist Lb, Sqlist &Lc) {
+    // 条件:线性表La和Lb中的数据元素按值非递减排列。
+    // 结果:归并La和Lb得到新的线性表Lc, Lc的数据元素也按值非递减排列。
+    ElemType *pa, *pb, *pc，*pa_last, *pb_last;
+    pa = La.elem;               // pa,pb,pc分别为La,Lb,Lc当前元素的位置
+    pb = Lb.elem;
+    pa_last = La.elem + La.length - 1;
+    pb_last = Lb.elem + Lb.length - 1;
+    Lc.list_size = Lc.length = La.length + Lb.length;    // 设置Lc的长度和容量
+    pc = Lc.elem = (ElemType *)malloc(Lc.list_size * sizeof(ElemType));
+    if(!Lc.elem) exit(ERROR);   // 分配存储空间失败
+
+    while (pa <= pa_last && pb <= pb_last) {    // 归并
+        * pc++ = (*pa < *pb) ? *pa++ : *pb++;
+    }
+    while (pa <= pa_last) * pc++ = * pa++;      // 插入La剩余元素
+    while (pb <= pb_last) * pc++ = * pb++;      // 插入Lb剩余元素
+
+    return OK;
+} // MergeList_sq
