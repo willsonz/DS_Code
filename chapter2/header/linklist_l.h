@@ -1,5 +1,5 @@
-#ifndef _LINKLIST_SL_H
-# define _LINKLIST_SL_H
+#ifndef _LINKLIST_L_H
+# define _LINKLIST_L_H
 
 # include <stdio.h>
 # include "header/basic.h"

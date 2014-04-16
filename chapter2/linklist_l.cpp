@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "header/basic.h"
-#include "header/linklist_sl.h"
+#include "header/linklist_l.h"
 
 Status InitList_L(LinkList &L) {
     // 构造一个空的带表头结点线性链表L
