@@ -52,7 +52,7 @@ Status ClearList(LinkList &L)
     L.len = 0;
 
     return OK;
-} // ClearList
+} // ClearListtu
 Status DestroyList(LinkList &L)
 {
     // 销毁线性链表L, L不再存在
@@ -62,6 +62,23 @@ Status DestroyList(LinkList &L)
 
     return OK;
 } // DestroyList
+
+Status InsFirst(Link h, Link s)
+{
+    // 已知h指向线性链表的头结点,将s所指结点插入在第一个结点之前
+    s->next = h->next;
+    h->next = s;
+    return OK;
+} // InsFirst
+
+Status DelFirst(Link h, Link &q)
+{
+    // 已知h指向线性链表的头结点,删除链表中的第一个结点并以q返回
+    q = h->next;
+    h->next = q->next;
+    q->next = NULL;
+    return  OK;
+} // DelFirst
 
 Status Append(LinkList &L, Link s)
 {
@@ -132,11 +149,36 @@ Status InsAfter(LinkList &L, Link &p, Link s)
     return OK;
 } // InsAfter
 
+Status SetCurElem(Link &p, ElemType e)
+{
+    // 已知p指向线性链表中的一个结点,用e更新其数据值
+    p->data = e;
+    return OK;
+} // SetCurElem
+
+ElemType GetCurElem(Link p)
+{
+    // 已知p指向线性链表中的一个结点,返回p所指结点中数据元素的值
+    return p->data;
+} // GetCurElem
+
 Status ListEmpty(LinkList L)
 {
     // 若线性链表为空,则返回TRUE, 否则返回FALSE
     return ！L.len ? TRUE : FALSE;
 } // ListEmpty
+
+Position GetHead(LinkList L)
+{
+    // 返回线性链表L中头结点的位置
+    return L.head;
+}
+
+Position GetLast(LinkList L)
+{
+    return L.tail;
+}
+
 
 Position PriorPos(LinkList L, Link p)
 {
