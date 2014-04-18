@@ -4,7 +4,9 @@
 # define _LINKLIST_H
 
 # include <stdio.h>
-# include "header/basic.h"
+# include "basic.h"
+
+typedef int ElemType;       // 数据元素值类型
 
 typedef struct LNode {      // 结点类型
     ElemType data;
@@ -38,5 +40,8 @@ Position NextPos(LinkList L, Link p);
 Status LocatePos(LinkList L, int i, Link &p);
 Position LocateElem(LinkList L, ElemType e,
                     Status (*compare)(ElemType, ElemType));
+Status ListInsert(LinkList &L, int i, ElemType e);
+Status MergeList(LinkList &La, LinkList &Lb, LinkList &Lc);
+int compare(ElemType e1, ElemType e2);
 
 #endif

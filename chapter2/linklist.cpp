@@ -2,7 +2,6 @@
 //
 #include <stdio.h>
 #include <stdlib.h>
-#include "header/basic.h"
 #include "header/linklist.h"
 
 // 基本操作函数定义
@@ -12,7 +11,8 @@ Status MakeNode(Link &p, ElemType e)
     p = (Link) malloc (sizeof(LNode));
     if (!p)
         return (ERROR);    // 分配失败
-    p->data = e;
+    else
+        p->data = e;
 
     return OK;
 } // MakeNode
@@ -48,11 +48,11 @@ Status ClearList(LinkList &L)
         p = q->next;        // p指向下一个结点
     }
     L.tail = L.head;        // 初始化尾结点
-
     L.len = 0;
 
     return OK;
 } // ClearListtu
+
 Status DestroyList(LinkList &L)
 {
     // 销毁线性链表L, L不再存在
@@ -84,14 +84,15 @@ Status Append(LinkList &L, Link s)
 {
     // 将指针s所指的一串结点链接在线性链表L的最后一个结点
     // 之后，并改变链表L的尾指针指向新的尾结点
-    L.tail->next = s;
+    Link p = s;
+    L.tail->next = s;   // 链接s所指的结点
 
     int i = 1;          // 新结点计数器
-    while (!(s->next)) {
-        s = s->next;    // 寻找新的尾结点
+    while (!(p->next)) {
+        p = p->next;    // 寻找新的尾结点
         i++;
     }
-    L.tail = s;         // 指向新的尾结点
+    L.tail = p;         // 指向新的尾结点
     L.len += i;         // 更新链表长度
 
     return OK;
@@ -102,12 +103,9 @@ Status Remove(LinkList &L, Link &q)
     // 删除线性链表L的尾结点并以q返回，改变链表的尾指针指向新的尾结点
     q = L.tail;
 
-    if (L.head == L.tail)
-        return ERROR;       // 空表无法去除尾结点
-
-    Link p = L.head;
-    while (L.tail != p->next)   // 寻找新的尾结点
-        p = p->next;
+    Link p;
+    p = PriorPos(L, L.tail);    // p指向尾结点的前趋，若为空表，则p为NULL
+    if (!p) return ERROR;       // 空表无法删除尾结点
     L.tail = p;         // 删除尾结点，更新尾结点
     L.tail->next = NULL;
     L.len--;            // 表长减1
@@ -122,9 +120,9 @@ Status InsBefore(LinkList &L, Link &p, Link s)
     if (!L.len)
         return ERROR;       // 空表插入失败
 
-    Link q = L.head;        // q指向头结点
-    while (p != q->next)    // 寻p所指结点的前趋
-        q = q->next;
+    Link q;
+    q = PriorPos(L, p);     // q指向p结点的前趋
+
     q->next = s;            // 插入
     s->next = p;
     L.len++;
@@ -137,7 +135,7 @@ Status InsAfter(LinkList &L, Link &p, Link s)
 {
     // 已知p指向线性链表L中的一个结点,将s所指结点插入在p所指结点之后，
     // 并修改指针p指向新插入的结点
-    if (p == L.tail) {      // 若p指向尾结点
+    if (p == L.tail) {      // 若p指向尾结点,则更新尾结点为s
         L.tail = s;
     }
 
@@ -165,7 +163,7 @@ ElemType GetCurElem(Link p)
 Status ListEmpty(LinkList L)
 {
     // 若线性链表为空,则返回TRUE, 否则返回FALSE
-    return ！L.len ? TRUE : FALSE;
+    return !L.len ? TRUE : FALSE;
 } // ListEmpty
 
 Position GetHead(LinkList L)
@@ -187,7 +185,7 @@ Position PriorPos(LinkList L, Link p)
     if (p == L.head)       // p指向头结点则无前趋
         return NULL;
 
-    Link q = L;
+    Link q = L.head;
     while (q->next != p)
         q = q->next;
 
@@ -198,7 +196,7 @@ Position NextPos(LinkList L, Link p)
 {
     // 已知p指向线性链表L中的一个结点,返回p所指结点上网直接后继的位置,
     // 若无后继,则返回NULL
-    return (p == L.tail) ? NULL : p->next;
+    return p->next;
 } // NextPos
 
 Status LocatePos(LinkList L, int i, Link &p)
@@ -224,13 +222,100 @@ Position LocateElem(LinkList L, ElemType e,
     Link p = L.head->next;          // p指向第一个结点
     int i = 1;
 
-    while (! compare(p->data, e) && i <= L.len)
+    while (! compare(p->data, e) && i <= L.len) {
         p = p->next;
+        i++;
+    }
+
     if (i > L.len)      // 元素不存在
         return ERROR;
-
-    return p;
+    else
+        return p;
 } // LocateElem
 
+Status ListTraverse(LinkList L, Status (*visit)(Link))
+{
+    // 依次对L的每个元素调用函数visit(),
+    // 一旦visit失败，则操作失败
+    Link p = L.head->next;  // p指向L的第一个结点
+    int i = 1;      // 元素计数器
 
+    for (i = 1; i <= L.len; i++) {
+        if (! visit(p))
+            return ERROR;
+        else
+            p = p->next;
+    }
 
+    return OK;
+} // ListTraverse
+
+Status visit(Link p)
+{
+    // 打印出结点的数据值
+    printf("%f ", p->data);
+    return OK;
+} // visit
+
+Status ListInsert(LinkList &L, int i, ElemType e)
+{
+    // 在带头结点的单链线性表L的第i个元素之前插入元素e
+    Link h, s;
+
+    if (!LocatePos(L, i-1, h)) return ERROR;    // i值不合法
+    if (!MakeNode(s, e)) return ERROR;          // 结点存储失败
+    InsFirst(h, s);      // 对从第i个结点开始的链表,第i-1个结点是它的头结点
+    return OK;
+} // ListInsert
+
+Status MergeList(LinkList &La, LinkList &Lb, LinkList &Lc,
+                 int (*compare)(ElemType, ElemType))
+{
+    // 已知单链线性表La和Lb的元素按值递增排列
+    // 归并La和Lb得到新的单链线性表Lc, Lc的元素也按值递增排列
+    Link ha, hb, pa, pb, q;
+    ElemType a, b;
+    if (!InitList(Lc)) return ERROR;    // 存储空间分配失败
+    ha = GetHead(La);
+    hb = GetHead(Lb);       // ha和hb分别指向La和Lb的头结点
+    pa = NextPos(La, ha);
+    pb = NextPos(Lb, hb);   // pa和pb分别指向La和Lb中当前结点
+
+    while (pa && pb) {
+        a = GetCurElem(pa);
+        b = GetCurElem(pb);     // a和b为两表中当前比较元素
+
+        if (compare(a, b) <= 0) {   // a < b
+            DelFirst(ha, q);
+            Append(Lc, q);
+            pa = NextPos(La, ha);
+        }
+        else {      //  a > b
+            DelFirst(hb, q);
+            Append(Lc, q);
+            pb = NextPos(Lb, hb);
+        }
+    }
+
+    if (pa)
+        Append(Lc, pa);     // 链接La中剩余结点
+    else
+        Append(Lc, pb);     // 链接Lb中剩余结点
+
+    FreeNode(ha);
+    FreeNode(hb);           // 释放La和Lb的头结点
+    return OK;
+} // MergeList
+
+int compare(ElemType e1, ElemType e2)
+{
+    // 比较e1和e2数据元素值大小,如果e1<e2,则返回-1;
+    // e1=e2,则返回0;
+    // e1>e2,则返回+1;
+    if (e1 < e2)
+        return -1;
+    else if (e1 == e2)
+        return 0;
+    else
+        return 1;
+} // compare
