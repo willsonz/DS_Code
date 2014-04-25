@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../header/basic.h"
+#include "basic.h"
 
 // 元素结构
 typedef struct {

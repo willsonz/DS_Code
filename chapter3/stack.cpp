@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "header/stack.h"
+#include "stack.h"
 
 
 Status InitStack(SqStack &S)

@@ -2,7 +2,7 @@
 //
 #include <stdio.h>
 #include <stdlib.h>
-#include "header/queue.h"
+#include "queue.h"
 
 Status InitQueue( LinkQueue &Q )
 {

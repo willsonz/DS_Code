@@ -1,9 +1,9 @@
 // main.cpp - 主程序，主要为测试代码
 //
 #include <stdio.h>
-#include "header/basic.h"
+#include "basic.h"
 
-#include "header/sqlist.h"
+#include "sqlist.h"
 
 int main(void)
 {

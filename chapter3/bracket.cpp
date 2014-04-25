@@ -1,4 +1,4 @@
-#include "../header/stack.h"
+#include "stack.h"
 
 // 习题3.17
 Status bracket1(SqStack &S)

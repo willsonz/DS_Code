@@ -3,7 +3,7 @@
 //
 #include <stdio.h>
 #include <stdlib.h>
-#include "header/sqlist.h"
+#include "sqlist.h"
 
 Status InitList_sq(Sqlist &L)
 {
