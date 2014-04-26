@@ -12,4 +12,4 @@
 
 #Reference
 
-> 1. [xuzhezhaozhao's DS_CODE](https://github.com/xuzhezhaozhao/DS_CODE)
+> * [xuzhezhaozhao's DS_CODE](https://github.com/xuzhezhaozhao/DS_CODE)
