@@ -13,3 +13,4 @@
 #Reference
 
 > * [xuzhezhaozhao's DS_CODE](https://github.com/xuzhezhaozhao/DS_CODE)
+> * 《The C Programming Language》(Second Edition)
