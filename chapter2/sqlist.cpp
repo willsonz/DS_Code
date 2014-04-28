@@ -158,7 +158,7 @@ Status ListTraverse_sq(Sqlist L, Status (*visit_sq)(ElemType))
     // 一旦visit()失败,则操作失败。
     int i;
 
-    for (i = 0; i <= L.length; ++i) {
+    for (i = 0; i < L.length; ++i) {
         if (! visit_sq(*(L.elem+i)))
             return ERROR;
     }

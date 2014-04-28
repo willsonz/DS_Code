@@ -19,7 +19,7 @@ typedef struct {
 
 //------------基本操作函数原型----------------
 Status InitList_sq(Sqlist &L);
-Status DetroyList_sq(Sqlist &L);
+Status DestroyList_sq(Sqlist &L);
 Status ClearList_sq(Sqlist &L);
 Status ListEmpty_sq(Sqlist L);
 int ListLength_sq(Sqlist L);
@@ -30,7 +30,7 @@ Status PriorElem_sq(Sqlist L, ElemType cur_e, ElemType &pre_e);
 Status NextElem_sq(Sqlist L, ElemType cur_e, ElemType &next_e);
 Status ListInsert_sq(Sqlist &L, int i, ElemType e);
 Status ListDelete_sq(Sqlist &L, int i, ElemType &e);
-Status LinstTraverse_sq(Sqlist L);
+Status ListTraverse_sq(Sqlist L, Status (*visit_sq)(ElemType));
 Status visit_sq(ElemType e);
 Status MergeList_sq(Sqlist La, Sqlist Lb, Sqlist &Lc);
 
