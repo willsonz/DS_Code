@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "stack.h"
+#include "./header/stack.h"
 
 // 算法3.1 - 数制转换
 void dec2oct()

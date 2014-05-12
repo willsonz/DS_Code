@@ -4,13 +4,12 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include "basic.h"
-# include "linklist.h"
 
 // -------队列的链式存储结构-------
 typedef struct QNode {
     QElemType data;
     struct QNode *next;
-} QNode, *QueuePtr;
+} *QueuePtr;
 
 typedef struct {
     QueuePtr front;     // 队头指针
@@ -36,12 +35,14 @@ int QueueLength( LinkQueue Q );
 Status GetHead( LinkQueue Q, QElemType &e );
     // 若队列非空,则用e饭回Q的队首元素,并返回OK，否则返回ERROR
 
-Status enQueue( LinkQueue &Q, QElemType e );
+Status EnQueue( LinkQueue &Q, QElemType e );
     // 插入元素e为Q新的队尾元素
 
 Status DeQueue( LinkQueue &Q, QElemType &e );
     // 若队列非空,则删除Q的队首元素，用e返回其值，并返回OK;
     // 否则返回ERROR
 
-Status QueueTraverse( LinkQueue Q, visit() );
+Status QueueTraverse( LinkQueue Q, void (*visit)(QElemType) );
     //
+
+#endif

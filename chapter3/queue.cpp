@@ -1,8 +1,10 @@
 // 队列链式实现
-//
 #include <stdio.h>
 #include <stdlib.h>
-#include "queue.h"
+
+typedef int QElemType;
+#include "header/queue.h"
+
 
 Status InitQueue( LinkQueue &Q )
 {
@@ -73,13 +75,13 @@ Status GetHead( LinkQueue Q, QElemType &e )
     return OK;
 }
 
-Status enQueue( LinkQueue &Q, QElemType e )
+Status EnQueue( LinkQueue &Q, QElemType e )
 {
     // 插入元素e为Q新的队尾元素
-    QElemPtr p;
+    QueuePtr p;
 
-    p = (QueuePtr)molloc(sizeof(QElemType));
-    if(p)
+    p = (QueuePtr)malloc(sizeof(QElemType));
+    if(!p)
         exit(OVERFLOW);
 
     p->data = e;
@@ -98,11 +100,11 @@ Status DeQueue( LinkQueue &Q, QElemType &e )
     if (QueueEmpty(Q))
         return ERROR;
 
-    Queueptr p;
+    QueuePtr p;
 
     p = Q.front->next;
     Q.front->next = p->next;
-    if (Q.rear == p)
+    if (Q.rear == p)    // 只有一个数据结点
         Q.rear = Q.front;
 
     e = p->data;
@@ -111,5 +113,15 @@ Status DeQueue( LinkQueue &Q, QElemType &e )
     return OK;
 }
 
-Status QueueTraverse( LinkQueue Q, visit() );
+Status QueueTraverse( LinkQueue Q, void (*visit)(QElemType))
+{
     //
+    QueuePtr p;
+    p = Q.front->next;
+
+    while (p) {
+        visit(p->data);
+        p = p->next;
+    }
+    printf("\n");
+}

@@ -3,7 +3,7 @@
 //
 #include <stdio.h>
 #include <stdlib.h>
-#include "sqlist.h"
+#include "./header/sqlist.h"
 
 Status InitList_sq(Sqlist &L)
 {
@@ -12,7 +12,7 @@ Status InitList_sq(Sqlist &L)
     if (!L.elem)
         exit(OVERFLOW);             // 存储分配失败
     L.length = 0;                   // 空表长度为0
-    L.list_size = LIST_INIT_SIZE;   // 初始化存储容量
+    L.listsize = LIST_INIT_SIZE;   // 初始化存储容量
     return OK;
 } // InitList_sq
 
@@ -112,14 +112,14 @@ Status ListInsert_sq(Sqlist &L, int i, ElemType e)
     //
     if (i < 1 || i > L.length+1) return ERROR;  // i值不合法
 
-    if (L.length >= L.list_size) {  // 当前存储空间已满，增加分配
+    if (L.length >= L.listsize) {  // 当前存储空间已满，增加分配
         ElemType * newbase;
         newbase = (ElemType * )realloc(L.elem,
-                        (L.list_size + LISTINCREMENT) * sizeof(ElemType));
+                        (L.listsize + LISTINCREMENT) * sizeof(ElemType));
 
         if (!newbase) exit(OVERFLOW);   // 存储分配失败
         L.elem = newbase;               // 新基址
-        L.list_size += LISTINCREMENT;   //增加存储变量
+        L.listsize += LISTINCREMENT;   //增加存储变量
     }
 
     ElemType * q;   // q为插入位置指针
@@ -182,8 +182,8 @@ Status MergeList_sq(Sqlist La, Sqlist Lb, Sqlist &Lc)
     pb = Lb.elem;
     pa_last = La.elem + La.length - 1;
     pb_last = Lb.elem + Lb.length - 1;
-    Lc.list_size = Lc.length = La.length + Lb.length;    // 设置Lc的长度和容量
-    pc = Lc.elem = (ElemType *)malloc(Lc.list_size * sizeof(ElemType));
+    Lc.listsize = Lc.length = La.length + Lb.length;    // 设置Lc的长度和容量
+    pc = Lc.elem = (ElemType *)malloc(Lc.listsize * sizeof(ElemType));
     if(!Lc.elem) exit(ERROR);   // 分配存储空间失败
 
     while (pa <= pa_last && pb <= pb_last) {    // 归并

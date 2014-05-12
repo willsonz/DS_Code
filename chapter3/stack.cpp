@@ -1,19 +1,17 @@
-
-#include <stdio.h>
-#include <stdlib.h>
-#include "stack.h"
+typedef int SElemType;
+#include "./header/stack.h"
 
 
 Status InitStack(SqStack &S)
 {
     // 构造一个空栈S
-    S.base = (SElemType *)malloc( STACK_INIT_SIZE * sizeof(ElemType) );
+    S.base = (SElemType *)malloc(STACK_INIT_SIZE * sizeof(SElemType));
 
     if( !S.base )
         exit(OVERFLOW);     // 存储失败
 
     S.top = S.base;
-    S.staksize = STACK_INIT_SIZE;
+    S.stacksize = STACK_INIT_SIZE;
 
     return OK;
 }
@@ -62,8 +60,8 @@ Status Push(SqStack &S, SElemType &e)
 {
     // 插入元素e为新的栈顶元素
     if( (S.top - S.base) >= S.stacksize ) {     // 栈满追加空间
-        S.base = (ElemType *) realloc( S.base,
-                            (S.stacksize + STACKINCREMENT) * sizeof(ElemType));
+        S.base = (SElemType *) realloc( S.base,
+                            (S.stacksize + STACKINCREMENT) * sizeof(SElemType));
         if( !S.base )
             exit(OVERFLOW);
 
@@ -76,7 +74,7 @@ Status Push(SqStack &S, SElemType &e)
     return OK;
 }
 
-Status Pop(SqStack &S, SelemType &e)
+Status Pop(SqStack &S, SElemType &e)
 {
     // 若栈不空,则删除S的栈顶元素,用e返回其值,并返回OK,否则返回ERROR
     if( StackEmpty(S) )
@@ -87,16 +85,13 @@ Status Pop(SqStack &S, SelemType &e)
     return OK;
 }
 
-Sataus StackTraverse(SqStack S, Status (*visit)())
+Status StackTraverse(SqStack S, Status (*visit_s)(SElemType))
 {
-    // 从栈底到栈顶依次对每个元素调用visit(),
-    // 一旦visit()失败,则操作失败
-    Link sp;
+    // 从栈底到栈顶依次对每个元素调用visit_s(),
+    // 一旦visit_s()失败,则操作失败
 
-    sp = S.base;
-
-    while( sp < S.top) {
-        visit( sp++ );
+    while( S.base < S.top) {
+        visit_s( *S.base++ );
     }
 
     return OK;

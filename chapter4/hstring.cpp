@@ -1,7 +1,7 @@
 // 堆存储字符串结构的基本操作函数
 #include <stdio.h>
 #include <stdlib.h>
-#include "hstring.h"
+#include "./header/hstring.h"
 
 Status StrAssign(HString &T, char *chars)
 {

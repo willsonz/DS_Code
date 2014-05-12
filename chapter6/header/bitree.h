@@ -9,12 +9,12 @@
 typedef struct BiTNode {
     TElemType data;
     struct BiTNode     *lchild, *rchild;   // 左右孩子指针
-} BiTNode, *BiTRee;
+} BiTNode, *BiTree;
 
 //---------------基本操作函数原型---------------------
 void InitBiTree(BiTree &T);
 
-void DetroyBiTree(BiTree &T);
+void DestroyBiTree(BiTree &T);
 
 Status CreateBiTree(BiTree &T);
 
@@ -26,26 +26,30 @@ TElemType Root(BiTree T);
 
 TElemType Value(BiTree p);
 
-void Assign(BiTree &p; TElemType value);
+void Assign(BiTree &p, TElemType value);
 
-BiTree Parent(BiTree T, BiTree e);
+TElemType Parent(BiTree T, TElemType e);
 
-BiTree LeftChild(BiTree T, BiTree e);
+BiTree Point(BiTree T, TElemType value);
 
-BiTree RightChild(BiTree T, BiTree e);
+TElemType LeftChild(BiTree T, TElemType e);
 
-BiTree LeftSibling(BiTree T, BiTree e);
+TElemType RightChild(BiTree T, TElemType e);
 
-BiTree RightSibling(BiTree T, BiTree e);
+TElemType LeftSibling(BiTree T, TElemType e);
+
+TElemType RightSibling(BiTree T, TElemType e);
 
 Status InsertChild(BiTree T, BiTree p, int LR, BiTree c);
 
 Status DeleteChild(BiTree T, BiTree p, int LR);
 
-Status PreOrderTraverse(Bitree T, Status (*visit)(TElemType e));
+Status PreOrderTraverse(BiTree T, Status (*visitT)(TElemType e));
 
-Status InOrderTraverse(Bitree T, Status (*visit)(TElemType e));
+Status InOrderTraverse(BiTree T, Status (*visitT)(TElemType e));
 
-Status PostOrderTraverse(Bitree T, Status (*visit)(TElemType e));
+Status PostOrderTraverse(BiTree T, Status (*visitT)(TElemType e));
 
-Status LevelOrderTraverse(Bitree T, Status (*visit)(TElemType e));
+Status LevelOrderTraverse(BiTree T, Status (*visitT)(TElemType e));
+
+#endif

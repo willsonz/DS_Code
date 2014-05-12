@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "exercise.h"
+#include "./header/exercise.h"
 
 // 算法2.11
 Status InsertInOrder(Sqlist &L, ElemType x)

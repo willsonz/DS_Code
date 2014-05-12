@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "polyn.h"
+#include "./header/polyn.h"
 
 // -------基本操作函数定义说明--------
 int cmp(term a, term b)

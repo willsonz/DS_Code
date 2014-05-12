@@ -10,7 +10,7 @@ typedef struct {
 // 所需头文件
 #include <stdio.h>
 #include <stdlib.h>
-#include "stack.h"
+#include "./header/stack.h"
 
 // 函数定义
 Status MazePath( MazeType maze, PosType start, PosType end)

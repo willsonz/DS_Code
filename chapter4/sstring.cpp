@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "sstring.h"
+#include "./header/sstring.h"
 
 //----- 模式匹配算法---------
 int Index(SString S, SString T, int pos)

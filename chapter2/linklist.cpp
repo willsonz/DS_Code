@@ -2,7 +2,7 @@
 //
 #include <stdio.h>
 #include <stdlib.h>
-#include "linklist.h"
+#include "./header/linklist.h"
 
 // 基本操作函数定义
 Status MakeNode(Link &p, ElemType e)
